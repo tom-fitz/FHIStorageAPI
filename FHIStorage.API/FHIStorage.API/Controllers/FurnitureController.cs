@@ -22,6 +22,7 @@ namespace FHIStorage.API.Controllers
     public class FurnitureController : Controller
     {
         private IFurnitureInfoRepository _furnitureInfoRepository;
+        private readonly ImageStore imageStore;
 
         public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository)
         {
@@ -203,56 +204,23 @@ namespace FHIStorage.API.Controllers
         }
         [HttpPost("furniture/image/{furnitureId}")]
         public async Task<IActionResult> UploadFile(IFormFile image)
-        {
-            var furnValues = RouteData.Values;
-            //var furnId = Convert.ToString(RouteData.Values[0]);
-            var reg = new Regex(@"(\d+)");
-            //int furnId = Convert.ToInt32(reg.Matches(routeStr));
-
-            var storageAccount = CloudStorageAccount.DevelopmentStorageAccount;
-
-            //CloudBlobCont
-
-            CloudBlobClient client = storageAccount.CreateCloudBlobClient();
-
-            CloudBlobContainer container = client.GetContainerReference("fhistorage");
-
-            container.CreateIfNotExistsAsync();
-
-            container.SetPermissionsAsync(new BlobContainerPermissions
-            {
-                PublicAccess = BlobContainerPublicAccessType.Blob
-            });
-
-            CloudBlockBlob blob = container.GetBlockBlobReference(image.FileName);
-
-            var fileName = Path.GetFileName(image.FileName);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
-
-            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                //await blob.UploadFromFileAsync(Convert.ToString(fileStream));
-                await blob.UploadFromStreamAsync(fileStream);
-            }
-            //await blob.UploadFromFileAsync(image.FileName);
-            
+        { 
+            int furnitureId = Convert.ToInt32(RouteData.Values["furnitureId"]);
             var furnitureImage = new FurnitureImage();
             if (ModelState.IsValid)
             {
                 if (image != null && image.Length > 0)
                 {
-                    //var fileName = Path.GetFileName(image.FileName);
-                    //var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\NewFolder", fileName);
-                    //using (var fileSteam = new FileStream(filePath, FileMode.Create))
-                    //{
-                    //    await image.CopyToAsync(fileSteam);
-                    //}
-                    //Hard coding the furnitureId for testing purposes.
-                    furnitureImage = new FurnitureImage()
+                    //ReadTimeout = 'stream.ReadTimeout' threw an exception of type 'System.InvalidOperationException'
+                    using (Stream stream = image.OpenReadStream())
                     {
-                        PictureInfo = fileName,
-                        FurnitureId = 1 //furnId
-                    };
+                        var imageId = await imageStore.SaveImage(stream).ConfigureAwait(false);
+                        furnitureImage = new FurnitureImage()
+                        {
+                            PictureInfo = imageId,
+                            FurnitureId = furnitureId
+                        };
+                    }
                 }
             }
             _furnitureInfoRepository.AddNewFurnitureImage(furnitureImage);
