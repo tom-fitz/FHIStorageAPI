@@ -22,7 +22,7 @@ namespace FHIStorage.API.Controllers
     public class FurnitureController : Controller
     {
         private IFurnitureInfoRepository _furnitureInfoRepository;
-        private readonly ImageStore imageStore;
+        private ImageStore imageStore;
 
         public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository)
         {
