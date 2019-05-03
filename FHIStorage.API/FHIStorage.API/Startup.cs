@@ -47,7 +47,7 @@ namespace FHIStorage.API
 
             services.AddScoped<IHouseInfoRepository, HouseInfoRepository>();
             services.AddScoped<IFurnitureInfoRepository, FurnitureInfoRepository>();
-
+            services.AddScoped<IImageInfoRepository, ImageInfoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
