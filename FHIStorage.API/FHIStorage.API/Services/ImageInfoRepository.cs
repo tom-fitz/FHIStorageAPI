@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.WindowsAzure.Storage;
 
 namespace FHIStorage.API.Services
 {
@@ -19,13 +20,11 @@ namespace FHIStorage.API.Services
 
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";
-
         public ImageInfoRepository()
         {
-            var credentials = new StorageCredentials("fhistorage", "iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==");
+            var credentials = new StorageCredentials("storageName", "GetStorageKeyValueFromAzure");
             blobClient = new CloudBlobClient(new Uri(baseUri), credentials);
         }
-
         public void AddNewFurnitureImage(FurnitureImage newImage)
         {
             _ctx.FurnitureImages.Add(newImage);
@@ -34,6 +33,9 @@ namespace FHIStorage.API.Services
 
         public async Task<string> SaveImage(Stream imageStream)
         {
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("GetStorageConnectionStringFromAzure");
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
             var imageId = Guid.NewGuid().ToString();
             var container = blobClient.GetContainerReference("furnitureimages");
             var blob = container.GetBlockBlobReference(imageId);

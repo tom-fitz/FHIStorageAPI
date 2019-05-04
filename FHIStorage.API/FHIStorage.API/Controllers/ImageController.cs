@@ -28,7 +28,6 @@ namespace FHIStorage.API.Controllers
             {
                 if (image != null && image.Length > 0)
                 {
-                    //ReadTimeout = 'stream.ReadTimeout' threw an exception of type 'System.InvalidOperationException'
                     using (Stream stream = image.OpenReadStream())
                     {
                         var imageId = await _imageInfoRepository.SaveImage(stream).ConfigureAwait(false);
