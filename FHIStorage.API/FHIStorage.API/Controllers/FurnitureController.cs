@@ -9,10 +9,6 @@ using FHIStorage.API.Models;
 using FHIStorage.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
-using Microsoft.WindowsAzure.Storage.Blob;
-//using Microsoft.WindowsAzure.Storage.;
 
 
 namespace FHIStorage.API.Controllers
@@ -22,7 +18,6 @@ namespace FHIStorage.API.Controllers
     public class FurnitureController : Controller
     {
         private IFurnitureInfoRepository _furnitureInfoRepository;
-        private readonly ImageStore imageStore;
 
         public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository)
         {
@@ -202,31 +197,7 @@ namespace FHIStorage.API.Controllers
             //return Ok();
             return CreatedAtRoute("GetFurnitureByFurnitureId", new { furnitureId = finalFurniture.FurnitureId }, finalFurniture);
         }
-        [HttpPost("furniture/image/{furnitureId}")]
-        public async Task<IActionResult> UploadFile(IFormFile image)
-        { 
-            int furnitureId = Convert.ToInt32(RouteData.Values["furnitureId"]);
-            var furnitureImage = new FurnitureImage();
-            if (ModelState.IsValid)
-            {
-                if (image != null && image.Length > 0)
-                {
-                    //ReadTimeout = 'stream.ReadTimeout' threw an exception of type 'System.InvalidOperationException'
-                    using (Stream stream = image.OpenReadStream())
-                    {
-                        var imageId = await imageStore.SaveImage(stream).ConfigureAwait(false);
-                        furnitureImage = new FurnitureImage()
-                        {
-                            PictureInfo = imageId,
-                            FurnitureId = furnitureId
-                        };
-                    }
-                }
-            }
-            _furnitureInfoRepository.AddNewFurnitureImage(furnitureImage);
 
-            return Ok(furnitureImage);
-        }
         [HttpPut("furniture/{id}")]
         public IActionResult UpdateFurnitureById([FromBody] Furniture newFurniture)
         {
