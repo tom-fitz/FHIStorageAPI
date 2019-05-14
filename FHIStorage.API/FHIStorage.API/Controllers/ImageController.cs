@@ -19,6 +19,14 @@ namespace FHIStorage.API.Controllers
         {
             _imageInfoRepository = imageInfoRepository;
         }
+
+        [HttpGet("image/{imageId}")]
+        public IActionResult GetImageByImageId(int imageId)
+        {
+            var imageUri = _imageInfoRepository.GetImageByImageId(imageId);
+
+            return Ok(imageUri);
+        }
         [HttpPost("furniture/image/{furnitureId}")]
         public async Task<IActionResult> UploadFile(IFormFile image)
         {

@@ -42,12 +42,14 @@ namespace FHIStorage.API.Controllers
                 {
                     FurnitureId = x.FurnitureId,
                     Name = x.Name,
+                    UID = x.UID,
                     CategoryId = x.CategoryId,
                     Cost = x.Cost,
                     DatePurchased = x.DatePurchased,
                     PurchasedFrom = x.PurchasedFrom,
                     HouseId = x.HouseId,
                     Turns = x.Turns,
+                    FurnitureImageId = x.FurnitureImageId,
                     FurnitureImages = x.FurnitureImages.ToList()
                 });
             }

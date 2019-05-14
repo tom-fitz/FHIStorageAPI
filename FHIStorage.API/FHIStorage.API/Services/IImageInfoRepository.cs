@@ -15,5 +15,6 @@ namespace FHIStorage.API.Services
         void AddNewFurnitureImage(FurnitureImage newImage);
         Task<string> SaveImage(Stream imageStream);
         string UriFor(string imageId);
+        string GetImageByImageId(int imageId);
     }
 }
