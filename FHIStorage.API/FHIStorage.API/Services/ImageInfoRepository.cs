@@ -22,11 +22,11 @@ namespace FHIStorage.API.Services
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";
 
-        CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=fhistorage;AccountKey=iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==;EndpointSuffix=core.windows.net");
+        CloudStorageAccount storageAccount = CloudStorageAccount.Parse("");
         
         public ImageInfoRepository()
         {
-            var credentials = new StorageCredentials("fhistorage", "iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==");
+            var credentials = new StorageCredentials("", "");
             blobClient = new CloudBlobClient(new Uri(baseUri), credentials);
         }
         public void AddNewFurnitureImage(FurnitureImage newImage)
@@ -37,12 +37,12 @@ namespace FHIStorage.API.Services
 
         public async Task<string> SaveImage(Stream imageStream)
         {
-            //CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=fhistorage;AccountKey=iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==;EndpointSuffix=core.windows.net");
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
             var imageId = Guid.NewGuid().ToString();
             var container = blobClient.GetContainerReference("furnitureimages");
             var blob = container.GetBlockBlobReference(imageId);
+            blob.Properties.ContentType = "image/jpg";
             await blob.UploadFromStreamAsync(imageStream);
             return imageId;
         }
@@ -69,7 +69,7 @@ namespace FHIStorage.API.Services
             var container = blobClient.GetContainerReference("furnitureimages");
             var blob = container.GetBlockBlobReference(imageId);
             var sas = blob.GetSharedAccessSignature(sasPolicy);
-            return $"{baseUri}fhistorage/{imageId}{sas}";
+            return $"{baseUri}furnitureimages/{imageId}{sas}";
         }
     }
 }
