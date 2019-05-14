@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
+using Remotion.Linq.Clauses;
 
 namespace FHIStorage.API.Services
 {
@@ -20,9 +21,12 @@ namespace FHIStorage.API.Services
 
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";
+
+        CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=fhistorage;AccountKey=iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==;EndpointSuffix=core.windows.net");
+        
         public ImageInfoRepository()
         {
-            var credentials = new StorageCredentials("storageName", "GetStorageKeyValueFromAzure");
+            var credentials = new StorageCredentials("fhistorage", "iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==");
             blobClient = new CloudBlobClient(new Uri(baseUri), credentials);
         }
         public void AddNewFurnitureImage(FurnitureImage newImage)
@@ -33,7 +37,7 @@ namespace FHIStorage.API.Services
 
         public async Task<string> SaveImage(Stream imageStream)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("GetStorageConnectionStringFromAzure");
+            //CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=fhistorage;AccountKey=iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==;EndpointSuffix=core.windows.net");
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
             var imageId = Guid.NewGuid().ToString();
@@ -41,6 +45,15 @@ namespace FHIStorage.API.Services
             var blob = container.GetBlockBlobReference(imageId);
             await blob.UploadFromStreamAsync(imageStream);
             return imageId;
+        }
+
+        public string GetImageByImageId(int imageId)
+        {
+            var getImageUri = _ctx.FurnitureImages.FirstOrDefault(f => f.FurnitureImageId == imageId);
+
+            var imageUri = UriFor(getImageUri.PictureInfo);
+
+            return imageUri;
         }
 
         public string UriFor(string imageId)
@@ -52,10 +65,11 @@ namespace FHIStorage.API.Services
                 SharedAccessExpiryTime = DateTime.UtcNow.AddMinutes(15)
             };
 
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference("furnitureimages");
             var blob = container.GetBlockBlobReference(imageId);
             var sas = blob.GetSharedAccessSignature(sasPolicy);
-            return $"{baseUri}images/{imageId}{sas}";
+            return $"{baseUri}fhistorage/{imageId}{sas}";
         }
     }
 }
