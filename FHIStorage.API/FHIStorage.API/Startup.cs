@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json.Serialization;
 
 namespace FHIStorage.API
@@ -39,7 +40,11 @@ namespace FHIStorage.API
             //    }
             //});
 
-            var dbconn = Environment.GetEnvironmentVariable("MYSQLCONNSTR_DBConnectionString");
+            //string dbconn = Environment.GetEnvironmentVariable("SQLCONNSTR_DBConnectionString");
+
+            //string dbconn = ConfigurationManager.ConnectionString["DBConnectionString"].ConnectionsString;
+
+            string dbconn = Configuration.GetConnectionString("DBConnectionString");
 
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
