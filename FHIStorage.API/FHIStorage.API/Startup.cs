@@ -40,11 +40,11 @@ namespace FHIStorage.API
             //    }
             //});
 
-            //string dbconn = Environment.GetEnvironmentVariable("SQLCONNSTR_DBConnectionString");
+            string dbconn = Environment.GetEnvironmentVariable("SQLCONNSTR_DBConnectionString");
 
             //string dbconn = ConfigurationManager.ConnectionString["DBConnectionString"].ConnectionsString;
 
-            string dbconn = Configuration.GetConnectionString("DBConnectionString");
+            //string dbconn = Configuration.GetConnectionString("DBConnectionString");
 
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
