@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.WindowsAzure.Storage;
 using Remotion.Linq.Clauses;
+using Microsoft.Extensions.Configuration;
 
 namespace FHIStorage.API.Services
 {
@@ -21,6 +23,8 @@ namespace FHIStorage.API.Services
 
         static string storageConn = Environment.GetEnvironmentVariable("APPSETTINGS_StorageAccountConnectionString");
         static string storageCred = Environment.GetEnvironmentVariable("APPSETTINGS_StorageCredentials");
+
+        //private string storageConn = System.Configuration
 
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";

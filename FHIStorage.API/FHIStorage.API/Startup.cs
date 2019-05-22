@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json.Serialization;
 
 namespace FHIStorage.API
@@ -20,11 +19,11 @@ namespace FHIStorage.API
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public static IConfiguration Configuration { get; private set; }
+        public IConfiguration _config { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _config = configuration;
         }
         public void ConfigureServices(IServiceCollection services)
         {
@@ -40,11 +39,8 @@ namespace FHIStorage.API
             //    }
             //});
 
-            string dbconn = Environment.GetEnvironmentVariable("SQLCONNSTR_DBConnectionString");
 
-            //string dbconn = ConfigurationManager.ConnectionString["DBConnectionString"].ConnectionsString;
-
-            //string dbconn = Configuration.GetConnectionString("DBConnectionString");
+            string dbconn = _config["DBConnectionString"];
 
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
