@@ -81,6 +81,7 @@ namespace FHIStorage.API.Controllers
                     DatePurchased = Convert.ToDateTime(f.DatePurchased),
                     HouseId = f.HouseId,
                     Turns = f.Turns,
+                    FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList()
                 });
             }
@@ -112,6 +113,7 @@ namespace FHIStorage.API.Controllers
                     DatePurchased = Convert.ToDateTime(f.DatePurchased),
                     HouseId = f.HouseId,
                     Turns = f.Turns,
+                    FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList()
                 });
             }
@@ -144,6 +146,7 @@ namespace FHIStorage.API.Controllers
                     DatePurchased = Convert.ToDateTime(f.DatePurchased),
                     HouseId = f.HouseId,
                     Turns = f.Turns,
+                    FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList()
                 });
             }

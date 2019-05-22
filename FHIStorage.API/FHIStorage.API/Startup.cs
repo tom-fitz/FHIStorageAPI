@@ -39,10 +39,9 @@ namespace FHIStorage.API
             //    }
             //});
 
-            //var connectionString = @"Server=(localdb)\mssqllocaldb;Database=FHIStorageDB;Trusted_Connection=True;";
-            var connectionString = @"Server=tcp:fhi01dbprod.database.windows.net,1433;Initial Catalog=FHIStorageDB;Persist Security Info=False;User ID=thomas.fitzgerald;Password=Fitz001/;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            //var connectionString = Startup.Configuration["connectionString:HouseInfoConnectionString"];
-            services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(connectionString));
+            var dbconn = Environment.GetEnvironmentVariable("MYSQLCONNSTR_DBConnectionString");
+
+            services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
 
             services.AddScoped<IHouseInfoRepository, HouseInfoRepository>();
