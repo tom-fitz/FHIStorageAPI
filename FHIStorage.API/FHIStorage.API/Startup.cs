@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FHIStorage.API.Entities;
@@ -20,6 +21,7 @@ namespace FHIStorage.API
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IConfiguration _config { get; private set; }
+        public IConfiguration AppSetting { get; private set; }
 
         public Startup(IConfiguration configuration)
         {
@@ -33,7 +35,7 @@ namespace FHIStorage.API
 
             string dbconn = _config["DBConnectionString"];
 
-            services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
+            //services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
 
             services.AddScoped<IHouseInfoRepository, HouseInfoRepository>();
@@ -48,6 +50,11 @@ namespace FHIStorage.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            AppSetting = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("AppSettings.json")
+                .Build();
 
             //houseInfoContext.EnsureSeedDataForContext();
 
