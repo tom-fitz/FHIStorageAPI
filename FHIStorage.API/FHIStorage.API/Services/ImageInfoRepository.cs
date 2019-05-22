@@ -19,14 +19,17 @@ namespace FHIStorage.API.Services
             _ctx = ctx;
         }
 
+        static string storageConn = Environment.GetEnvironmentVariable("APPSETTINGS_StorageAccountConnectionString");
+        static string storageCred = Environment.GetEnvironmentVariable("APPSETTINGS_StorageCredentials");
+
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";
 
-        CloudStorageAccount storageAccount = CloudStorageAccount.Parse("");
+        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConn);
         
         public ImageInfoRepository()
         {
-            var credentials = new StorageCredentials("", "");
+            var credentials = new StorageCredentials("fhistorage", storageCred);
             blobClient = new CloudBlobClient(new Uri(baseUri), credentials);
         }
         public void AddNewFurnitureImage(FurnitureImage newImage)
