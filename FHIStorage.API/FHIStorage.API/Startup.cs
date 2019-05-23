@@ -35,7 +35,7 @@ namespace FHIStorage.API
 
             string dbconn = _config["DBConnectionString"];
 
-            //services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
+            services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
 
             services.AddScoped<IHouseInfoRepository, HouseInfoRepository>();
