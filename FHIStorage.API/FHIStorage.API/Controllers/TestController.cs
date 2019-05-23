@@ -7,19 +7,19 @@ using Microsoft.Extensions.Configuration;
 
 namespace FHIStorage.API.Controllers
 {
-    [Route("api")]
+    [Route("api/test")]
     public class TestController : Controller
     {
 
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
 
         public TestController(IConfiguration configuration)
         {
             _config = configuration;
         }
 
-        [HttpGet("test")]
-        public string getTestController(IConfiguration _config)
+        [HttpGet("")]
+        public string getTestController()
         {
             return _config["DBConnectionString"];
         }
