@@ -21,7 +21,7 @@ namespace FHIStorage.API.Controllers
         [HttpGet("")]
         public string getTestController()
         {
-            return _config["DBConnectionString"];
+            return _config["StorageCredentials"];
         }
     }
 }
