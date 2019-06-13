@@ -34,6 +34,7 @@ namespace FHIStorage.API
         {
             services.AddCors(options =>
             {
+                // specify cross origin hosts
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
