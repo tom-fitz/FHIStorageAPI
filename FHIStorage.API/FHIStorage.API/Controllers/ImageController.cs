@@ -1,4 +1,5 @@
 ﻿using FHIStorage.API.Entities;
+using FHIStorage.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,7 +26,12 @@ namespace FHIStorage.API.Controllers
         {
             var imageUri = _imageInfoRepository.GetImageByImageId(imageId);
 
-            return Ok(imageUri);
+            var imageSrc = new FurnitureUriModel()
+            {
+                src = Convert.ToString(imageUri)
+            };
+
+            return Ok(imageSrc);
         }
         [HttpPost("furniture/image/{furnitureId}")]
         public async Task<IActionResult> UploadFile(IFormFile image)
