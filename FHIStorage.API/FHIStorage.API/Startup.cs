@@ -28,14 +28,19 @@ namespace FHIStorage.API
             _config = configuration;
         }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSubDomain",
+                // specify cross origin hosts
+                options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.SetIsOriginAllowedToAllowWildcardSubdomains();
+                        builder.WithOrigins("http://localhost:8080")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
 
@@ -69,7 +74,7 @@ namespace FHIStorage.API
             //houseInfoContext.EnsureSeedDataForContext();
 
             // Allowing for cross-origin browsers to access the API endpoints.
-            app.UseCors();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseStatusCodePages();
 
