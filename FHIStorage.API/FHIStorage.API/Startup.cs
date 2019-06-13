@@ -72,6 +72,9 @@ namespace FHIStorage.API
 
             //houseInfoContext.EnsureSeedDataForContext();
 
+            // Allowing for cross-origin browsers to access the API endpoints.
+            app.UseCors();
+
             app.UseStatusCodePages();
 
             app.UseMvc();
