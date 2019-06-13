@@ -28,19 +28,14 @@ namespace FHIStorage.API
             _config = configuration;
         }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
             {
-                // specify cross origin hosts
-                options.AddPolicy(MyAllowSpecificOrigins,
+                options.AddPolicy("AllowSubDomain",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8080")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
+                        builder.SetIsOriginAllowedToAllowWildcardSubdomains();
                     });
             });
 
