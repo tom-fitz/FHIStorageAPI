@@ -44,7 +44,8 @@ namespace FHIStorage.API.Services
                             DatePurchased = furn.DatePurchased,
                             HouseId = furn.HouseId,
                             Turns = furn.Turns,
-                            FurnitureImages = imageGroup.ToList()
+                            FurnitureImages = imageGroup.ToList(),
+                            FurnitureImageId = furn.FurnitureImageId
                         }
                 );
         }
