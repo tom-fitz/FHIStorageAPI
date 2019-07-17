@@ -237,7 +237,7 @@ namespace FHIStorage.API.Controllers
 
             _furnitureInfoRepository.DeleteFurnitureByFurnitureId(itemToDelete);
 
-            return Ok();
+            return NoContent();
         }
     }
 }

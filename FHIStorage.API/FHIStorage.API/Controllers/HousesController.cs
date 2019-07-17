@@ -119,7 +119,7 @@ namespace FHIStorage.API.Controllers
 
             _houseInfoRepository.DeleteHouseById(houseToDelete);
 
-            return Ok();
+            return NoContent();
         }
     }
 }
