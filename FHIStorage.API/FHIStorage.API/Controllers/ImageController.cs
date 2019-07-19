@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FHIStorage.API.Services;
 
@@ -55,9 +56,16 @@ namespace FHIStorage.API.Controllers
                             FurnitureId = furnitureId
                         };
                     }
+                    _imageInfoRepository.AddNewFurnitureImage(furnitureImage);
                 }
+                else
+                {
+                    return BadRequest($"Image is: {image}. Image Length is: {image.Length}");
+                }
+
+                return BadRequest($"ModelState is bad: {ModelState}");
             }
-            _imageInfoRepository.AddNewFurnitureImage(furnitureImage);
+            
 
             return Ok(furnitureImage);
         }

@@ -21,11 +21,8 @@ namespace FHIStorage.API.Services
             _ctx = ctx;
         }
 
-        //static string storageConn = Environment.GetEnvironmentVariable("APPSETTINGS_StorageAccountConnectionString");
-        //static string storageCred = Environment.GetEnvironmentVariable("APPSETTINGS_StorageCredentials");
-
-        static string storageConn = "DefaultEndpointsProtocol=https;AccountName=fhistorage;AccountKey=iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==;EndpointSuffix=core.windows.net";
-        static string storageCred = "iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==";
+        static string storageConn = Environment.GetEnvironmentVariable("APPSETTINGS_StorageAccountConnectionString");
+        static string storageCred = Environment.GetEnvironmentVariable("APPSETTINGS_StorageCredentials");
 
         //var connString = Configure.AppSetting[""];
 
