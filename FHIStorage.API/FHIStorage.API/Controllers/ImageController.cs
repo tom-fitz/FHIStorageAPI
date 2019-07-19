@@ -38,10 +38,10 @@ namespace FHIStorage.API.Controllers
         {
             int furnitureId = Convert.ToInt32(RouteData.Values["furnitureId"]);
             var furnitureImage = new FurnitureImage();
-            if (image.ContentType != "image/jpg")
-            {
-                return BadRequest("This endpoint only excepts jpg file type..");
-            }
+            //if (image.ContentType != "image/jpg")
+            //{
+            //    return BadRequest("This endpoint only excepts jpg file type..");
+            //}
             if (ModelState.IsValid)
             {
                 if (image != null && image.Length > 0)
