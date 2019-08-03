@@ -46,6 +46,7 @@ namespace FHIStorage.API.Services
                             Turns = furn.Turns,
                             FurnitureImages = imageGroup.ToList(),
                             FurnitureImageId = furn.FurnitureImageId
+                            //Address = house.Address
                         }
                 );
         }
@@ -54,26 +55,8 @@ namespace FHIStorage.API.Services
         {
             return _ctx.Furniture
                 .Where(furn => (furn.FurnitureId == furnitureId))
-                .GroupJoin(
-                    _ctx.FurnitureImages,
-                    furn => (Int32?)(furn.FurnitureId),
-                    furnImage => furnImage.FurnitureId,
-                    (furn, imageGroup) =>
-                        new Furniture
-                        {
-                            FurnitureId = furn.FurnitureId,
-                            Name = furn.Name,
-                            UID = furn.UID,
-                            CategoryId = furn.CategoryId,
-                            Cost = furn.Cost,
-                            PurchasedFrom = furn.PurchasedFrom,
-                            DatePurchased = furn.DatePurchased,
-                            HouseId = furn.HouseId,
-                            Turns = furn.Turns,
-                            FurnitureImageId = furn.FurnitureImageId,
-                            FurnitureImages = imageGroup.ToList()
-                        }
-                );
+                .Include(furn => furn.FurnitureImages)
+                .Include(furn => furn.House);
         }
 
         public IEnumerable<Furniture> GetFurnitureByHouseId(int houseId)
@@ -128,26 +111,8 @@ namespace FHIStorage.API.Services
         }
         public void updateFurnitureByFurnitureId(Furniture newFurniture)
         {
-            Furniture entity = _ctx.Furniture.FirstOrDefault(f => f.FurnitureId == newFurniture.FurnitureId);
-
-            if (entity != null)
-            {
-                entity.FurnitureId = newFurniture.FurnitureId;
-                entity.Name = newFurniture.Name;
-                entity.UID = newFurniture.UID;
-                entity.CategoryId = newFurniture.CategoryId;
-                entity.Cost = Convert.ToDecimal(newFurniture.Cost);
-                entity.PurchasedFrom = newFurniture.PurchasedFrom;
-                entity.DatePurchased = Convert.ToDateTime(newFurniture.DatePurchased);
-                entity.HouseId = newFurniture.HouseId;
-                entity.Turns = newFurniture.Turns;
-                entity.FurnitureImageId = newFurniture.FurnitureImageId;
-                entity.FurnitureImages = newFurniture.FurnitureImages.ToList();
-
-                _ctx.Furniture.Update(entity);
-
-                _ctx.SaveChanges();
-            }
+            _ctx.UpdateRange(newFurniture);
+            _ctx.SaveChanges();
         }
 
         public void DeleteFurnitureByFurnitureId(Furniture furnitureToDelete)

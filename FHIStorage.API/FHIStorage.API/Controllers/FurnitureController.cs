@@ -50,7 +50,8 @@ namespace FHIStorage.API.Controllers
                     HouseId = x.HouseId,
                     Turns = x.Turns,
                     FurnitureImageId = x.FurnitureImageId,
-                    FurnitureImages = x.FurnitureImages.ToList()
+                    FurnitureImages = x.FurnitureImages.ToList(),
+                    House = x.House
                 });
             }
 

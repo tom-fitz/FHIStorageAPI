@@ -62,11 +62,11 @@ namespace FHIStorage.API.Controllers
                 {
                     return BadRequest($"Image is: {image}. Image Length is: {image.Length}");
                 }
-
+            }
+            else
+            {
                 return BadRequest($"ModelState is bad: {ModelState}");
             }
-            
-
             return Ok(furnitureImage);
         }
     }
