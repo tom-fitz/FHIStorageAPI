@@ -1,7 +1,13 @@
 # FHIStorageAPI
 
-The problem that this API is solving is tracking issues with Fitzgerald Home Interiors product. (Furniture)
+To run this locally you'll need to sets of connection strings
 
-This API will allow a mobile application to send and retrieve data for easy accessibilty from the moving and transportation teams. 
+startup.cs
+string dbconn = database connection string
 
-A benefit to making this an API is allowing another deskptop service to access this data for reporting purposes to more efficiently track a piece of furnitures ROI, and much much more.
+ImageInfoRepository.cs
+
+static string storageConn = Azure Blob storage connection string
+static string storageCred = Azure credentials string
+
+

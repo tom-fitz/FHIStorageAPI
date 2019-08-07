@@ -28,27 +28,8 @@ namespace FHIStorage.API.Services
         {
             return _ctx.Furniture
                 .Where(furn => (furn.CategoryId == categoryId))
-                .GroupJoin(
-                    _ctx.FurnitureImages,
-                    furn => (Int32?)(furn.FurnitureId),
-                    furnImage => furnImage.FurnitureId,
-                    (furn, imageGroup) =>
-                        new Furniture
-                        {
-                            FurnitureId = furn.FurnitureId,
-                            Name = furn.Name,
-                            UID = furn.UID,
-                            CategoryId = furn.CategoryId,
-                            Cost = furn.Cost,
-                            PurchasedFrom = furn.PurchasedFrom,
-                            DatePurchased = furn.DatePurchased,
-                            HouseId = furn.HouseId,
-                            Turns = furn.Turns,
-                            FurnitureImages = imageGroup.ToList(),
-                            FurnitureImageId = furn.FurnitureImageId
-                            //Address = house.Address
-                        }
-                );
+                .Include(furn => furn.FurnitureImages)
+                .Include(furn => furn.House);
         }
 
         public IQueryable<Furniture> GetFurnitureByFurnitureId(int furnitureId)
@@ -61,43 +42,52 @@ namespace FHIStorage.API.Services
 
         public IEnumerable<Furniture> GetFurnitureByHouseId(int houseId)
         {
-            return from furn in _ctx.Furniture
-                   where furn.HouseId == houseId
-                   join furnImage in _ctx.FurnitureImages on furn.FurnitureId equals furnImage.FurnitureId into imageGroup
-                   select new Furniture
-                   {
-                       FurnitureId = furn.FurnitureId,
-                       Name = furn.Name,
-                       UID = furn.UID,
-                       CategoryId = furn.CategoryId,
-                       Cost = furn.Cost,
-                       PurchasedFrom = furn.PurchasedFrom,
-                       DatePurchased = furn.DatePurchased,
-                       HouseId = furn.HouseId,
-                       Turns = furn.Turns,
-                       FurnitureImageId = furn.FurnitureImageId,
-                       FurnitureImages = imageGroup.ToList()
-                   };
+            //return from furn in _ctx.Furniture
+            //       where furn.HouseId == houseId
+            //       join furnImage in _ctx.FurnitureImages on furn.FurnitureId equals furnImage.FurnitureId into imageGroup
+            //       select new Furniture
+            //       {
+            //           FurnitureId = furn.FurnitureId,
+            //           Name = furn.Name,
+            //           UID = furn.UID,
+            //           CategoryId = furn.CategoryId,
+            //           Cost = furn.Cost,
+            //           PurchasedFrom = furn.PurchasedFrom,
+            //           DatePurchased = furn.DatePurchased,
+            //           HouseId = furn.HouseId,
+            //           Turns = furn.Turns,
+            //           FurnitureImageId = furn.FurnitureImageId,
+            //           FurnitureImages = imageGroup.ToList()
+            //       };
+
+            return _ctx.Furniture
+                .Where(furn => (furn.HouseId == houseId))
+                .Include(furn => furn.FurnitureImages)
+                .Include(furn => furn.House);
         }
 
         public IEnumerable<Furniture> GetFurnitures()
         {
-            return from furn in _ctx.Furniture
-                   join furnImage in _ctx.FurnitureImages on furn.FurnitureId equals furnImage.FurnitureId into imageGroup
-                   select new Furniture
-                   {
-                       FurnitureId = furn.FurnitureId,
-                       Name = furn.Name,
-                       UID = furn.UID,
-                       CategoryId = furn.CategoryId,
-                       Cost = furn.Cost,
-                       PurchasedFrom = furn.PurchasedFrom,
-                       DatePurchased = furn.DatePurchased,
-                       HouseId = furn.HouseId,
-                       Turns = furn.Turns,
-                       FurnitureImageId = furn.FurnitureImageId,
-                       FurnitureImages = imageGroup.ToList()
-                   };
+            //return from furn in _ctx.Furniture
+            //       join furnImage in _ctx.FurnitureImages on furn.FurnitureId equals furnImage.FurnitureId into imageGroup
+            //       select new Furniture
+            //       {
+            //           FurnitureId = furn.FurnitureId,
+            //           Name = furn.Name,
+            //           UID = furn.UID,
+            //           CategoryId = furn.CategoryId,
+            //           Cost = furn.Cost,
+            //           PurchasedFrom = furn.PurchasedFrom,
+            //           DatePurchased = furn.DatePurchased,
+            //           HouseId = furn.HouseId,
+            //           Turns = furn.Turns,
+            //           FurnitureImageId = furn.FurnitureImageId,
+            //           FurnitureImages = imageGroup.ToList()
+            //       };
+
+            return _ctx.Furniture
+                .Include(furn => furn.FurnitureImages)
+                .Include(furn => furn.House);
         }
         public void AddNewFurniture(Furniture newFurniture)
         {

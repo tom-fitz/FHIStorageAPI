@@ -18,16 +18,34 @@ namespace FHIStorage.API.Controllers
     public class FurnitureController : Controller
     {
         private IFurnitureInfoRepository _furnitureInfoRepository;
+        private IImageInfoRepository _imageInfoRepository;
 
-        public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository)
+        public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository, IImageInfoRepository imageInfoRepository)
         {
             _furnitureInfoRepository = furnitureInfoRepository;
+            _imageInfoRepository = imageInfoRepository;
         }
 
         [HttpGet("furniture/{furnitureId}", Name = "GetFurnitureByFurnitureId")]
         public IActionResult GetFurnitureByFurnitureId(int furnitureId)
         {
             var singleFurniture = _furnitureInfoRepository.GetFurnitureByFurnitureId(furnitureId);
+
+            //foreach (var i in singleFurniture)
+            //{
+            //    if (i.FurnitureImageId != null || i.FurnitureImageId != 0)
+            //    {
+            //        // Fetch the image from 
+            //        var furnitureImage = _imageInfoRepository.GetImageByImageId(Convert.ToInt32(i.FurnitureImageId));
+            //        if (furnitureImage != null)
+            //        {
+            //            foreach (var y in i.FurnitureImages)
+            //            {
+            //                y.PictureInfo = furnitureImage;
+            //            }
+            //        }
+            //    }
+            //}
 
             if (singleFurniture == null)
             {
@@ -62,18 +80,23 @@ namespace FHIStorage.API.Controllers
         {
             var furnitureInHouse = _furnitureInfoRepository.GetFurnitureByHouseId(houseID);
 
+            if (furnitureInHouse != null)
+            {
+
+            }
+
             if (furnitureInHouse == null)
             {
                 return NotFound();
             }
 
-            var results = new List<FurnitureModel>();
+            var results = new List<Furniture>();
 
             foreach (var f in furnitureInHouse)
             {
-                results.Add(new FurnitureModel
+                results.Add(new Furniture
                 {
-                    Id = f.FurnitureId,
+                    FurnitureId = f.FurnitureId,
                     Name = f.Name,
                     UID = f.UID,
                     CategoryId = f.CategoryId,
@@ -83,7 +106,8 @@ namespace FHIStorage.API.Controllers
                     HouseId = f.HouseId,
                     Turns = f.Turns,
                     FurnitureImageId = f.FurnitureImageId,
-                    FurnitureImages = f.FurnitureImages.ToList()
+                    FurnitureImages = f.FurnitureImages.ToList(),
+                    House = f.House
                 });
             }
 
@@ -115,7 +139,8 @@ namespace FHIStorage.API.Controllers
                     HouseId = f.HouseId,
                     Turns = f.Turns,
                     FurnitureImageId = f.FurnitureImageId,
-                    FurnitureImages = f.FurnitureImages.ToList()
+                    FurnitureImages = f.FurnitureImages.ToList(),
+                    House = f.House
                 });
             }
 
@@ -148,7 +173,8 @@ namespace FHIStorage.API.Controllers
                     HouseId = f.HouseId,
                     Turns = f.Turns,
                     FurnitureImageId = f.FurnitureImageId,
-                    FurnitureImages = f.FurnitureImages.ToList()
+                    FurnitureImages = f.FurnitureImages.ToList(),
+                    House = f.House
                 });
             }
 

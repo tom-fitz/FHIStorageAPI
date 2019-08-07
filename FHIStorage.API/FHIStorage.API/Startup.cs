@@ -45,10 +45,12 @@ namespace FHIStorage.API
             });
 
             services.AddMvc()
+                .AddControllersAsServices()
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()));
 
             string dbconn = _config["DBConnectionString"];
+            
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
 
