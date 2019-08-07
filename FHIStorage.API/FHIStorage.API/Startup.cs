@@ -50,7 +50,7 @@ namespace FHIStorage.API
                     new XmlDataContractSerializerOutputFormatter()));
 
             string dbconn = _config["DBConnectionString"];
-            
+
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
 

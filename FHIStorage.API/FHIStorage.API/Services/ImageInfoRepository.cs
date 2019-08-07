@@ -21,8 +21,10 @@ namespace FHIStorage.API.Services
             _ctx = ctx;
         }
 
-        static string storageConn = Environment.GetEnvironmentVariable("APPSETTINGS_StorageAccountConnectionString");
-        static string storageCred = Environment.GetEnvironmentVariable("APPSETTINGS_StorageCredentials");
+
+
+        static string storageConn = Environment.GetEnvironmentVariable("StorageAccountConnectionString");
+        static string storageCred = Environment.GetEnvironmentVariable("StorageCredentials");
 
         //var connString = Configure.AppSetting[""];
 
