@@ -18,34 +18,16 @@ namespace FHIStorage.API.Controllers
     public class FurnitureController : Controller
     {
         private IFurnitureInfoRepository _furnitureInfoRepository;
-        private IImageInfoRepository _imageInfoRepository;
 
-        public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository, IImageInfoRepository imageInfoRepository)
+        public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository)
         {
             _furnitureInfoRepository = furnitureInfoRepository;
-            _imageInfoRepository = imageInfoRepository;
         }
 
         [HttpGet("furniture/{furnitureId}", Name = "GetFurnitureByFurnitureId")]
         public IActionResult GetFurnitureByFurnitureId(int furnitureId)
         {
             var singleFurniture = _furnitureInfoRepository.GetFurnitureByFurnitureId(furnitureId);
-
-            //foreach (var i in singleFurniture)
-            //{
-            //    if (i.FurnitureImageId != null || i.FurnitureImageId != 0)
-            //    {
-            //        // Fetch the image from 
-            //        var furnitureImage = _imageInfoRepository.GetImageByImageId(Convert.ToInt32(i.FurnitureImageId));
-            //        if (furnitureImage != null)
-            //        {
-            //            foreach (var y in i.FurnitureImages)
-            //            {
-            //                y.PictureInfo = furnitureImage;
-            //            }
-            //        }
-            //    }
-            //}
 
             if (singleFurniture == null)
             {
