@@ -53,7 +53,6 @@ namespace FHIStorage.API
 
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
-
             services.AddScoped<IHouseInfoRepository, HouseInfoRepository>();
             services.AddScoped<IFurnitureInfoRepository, FurnitureInfoRepository>();
             services.AddScoped<IImageInfoRepository, ImageInfoRepository>();

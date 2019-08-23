@@ -16,5 +16,7 @@ namespace FHIStorage.API.Services
         Task<string> SaveImage(Stream imageStream);
         string UriFor(string imageId);
         string GetImageByImageId(int imageId);
+        FurnitureImage GetImageByFurnitureId(int furnitureId);
+        void DeleteImage(string guid, FurnitureImage furnImageToDelete);
     }
 }

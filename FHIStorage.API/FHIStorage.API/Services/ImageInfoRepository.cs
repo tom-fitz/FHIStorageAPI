@@ -21,12 +21,8 @@ namespace FHIStorage.API.Services
             _ctx = ctx;
         }
 
-
-
         static string storageConn = Environment.GetEnvironmentVariable("StorageAccountConnectionString");
         static string storageCred = Environment.GetEnvironmentVariable("StorageCredentials");
-
-        //var connString = Configure.AppSetting[""];
 
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";
@@ -56,6 +52,28 @@ namespace FHIStorage.API.Services
             return imageId;
         }
 
+        public void DeleteImage(string guid, FurnitureImage furnImageToDelete)
+        {
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference("furnitureimages");
+            var blob = container.GetBlockBlobReference(guid);
+            blob.DeleteIfExistsAsync();
+            DeleteImageFromDB(furnImageToDelete);
+        }
+
+        private void DeleteImageFromDB(FurnitureImage furnImageToDelete)
+        {
+            _ctx.FurnitureImages.Remove(furnImageToDelete);
+            _ctx.SaveChanges();
+        }
+
+        public FurnitureImage GetImageByFurnitureId(int furnitureId)
+                                      {
+            var checkFurnitureImage = _ctx.FurnitureImages.FirstOrDefault(f => f.FurnitureId == furnitureId);
+
+            return checkFurnitureImage;
+        }
+
         public string GetImageByImageId(int imageId)
         {
             var getImageUri = _ctx.FurnitureImages.FirstOrDefault(f => f.FurnitureImageId == imageId);
@@ -77,6 +95,7 @@ namespace FHIStorage.API.Services
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference("furnitureimages");
             var blob = container.GetBlockBlobReference(imageId);
+            // sas is for secure back and for. Will need this once authentication is put in place.
             //var sas = blob.GetSharedAccessSignature(sasPolicy);
             return $"{baseUri}furnitureimages/{imageId}";
         }

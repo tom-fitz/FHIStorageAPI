@@ -225,7 +225,7 @@ namespace FHIStorage.API.Controllers
             }
             if (!_furnitureInfoRepository.FurnitureExists(newFurniture.FurnitureId))
             {
-                return NotFound();
+                return NotFound($"No furniture with the id: {newFurniture.FurnitureId} was found");
             }
 
             _furnitureInfoRepository.updateFurnitureByFurnitureId(newFurniture);

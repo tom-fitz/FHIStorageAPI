@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FHIStorage.API.Services;
+using Microsoft.IdentityModel.Logging;
 
 namespace FHIStorage.API.Controllers
 {
@@ -38,11 +40,26 @@ namespace FHIStorage.API.Controllers
         public async Task<IActionResult> UploadFile(IFormFile image)
         {
             int furnitureId = Convert.ToInt32(RouteData.Values["furnitureId"]);
+
+            var furnitureImageCheck = _imageInfoRepository.GetImageByFurnitureId(furnitureId);
+
+            if (furnitureImageCheck != null)
+            {
+                var newReg = new Regex(@"([^/]+$)");
+                string strMatch = furnitureImageCheck.PictureInfo;
+                string guid = newReg.Matches(strMatch)[0].Value;
+                try
+                {
+                    _imageInfoRepository.DeleteImage(guid, furnitureImageCheck);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Error in image deletion: " + $"{ex}");
+                }
+            }
+
             var furnitureImage = new FurnitureImage();
-            //if (image.ContentType != "image/jpg")
-            //{
-            //    return BadRequest("This endpoint only excepts jpg file type..");
-            //}
+
             if (ModelState.IsValid)
             {
                 if (image != null && image.Length > 0)
@@ -52,7 +69,7 @@ namespace FHIStorage.API.Controllers
                         var imageId = await _imageInfoRepository.SaveImage(stream).ConfigureAwait(false);
                         furnitureImage = new FurnitureImage()
                         {
-                            PictureInfo = imageId,
+                            PictureInfo = "https://fhistorage.blob.core.windows.net/furnitureimages/" + imageId,
                             FurnitureId = furnitureId
                         };
                     }
