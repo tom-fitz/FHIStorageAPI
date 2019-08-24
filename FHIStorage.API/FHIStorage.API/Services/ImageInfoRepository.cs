@@ -54,6 +54,7 @@ namespace FHIStorage.API.Services
 
         public void DeleteImage(string guid, FurnitureImage furnImageToDelete)
         {
+            // delete image from blob based on guid
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
             var container = blobClient.GetContainerReference("furnitureimages");
             var blob = container.GetBlockBlobReference(guid);
