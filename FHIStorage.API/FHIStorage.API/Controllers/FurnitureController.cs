@@ -18,10 +18,12 @@ namespace FHIStorage.API.Controllers
     public class FurnitureController : Controller
     {
         private IFurnitureInfoRepository _furnitureInfoRepository;
+        private IImageInfoRepository _imageInfoRepository;
 
-        public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository)
+        public FurnitureController(IFurnitureInfoRepository furnitureInfoRepository, IImageInfoRepository imageInfoRepository)
         {
             _furnitureInfoRepository = furnitureInfoRepository;
+            _imageInfoRepository = imageInfoRepository;
         }
 
         [HttpGet("furniture/{furnitureId}", Name = "GetFurnitureByFurnitureId")]
@@ -242,6 +244,25 @@ namespace FHIStorage.API.Controllers
             if (itemToDelete == null)
             {
                 NotFound();
+            }
+
+            string guid = "";
+            FurnitureImage furnitureImagedeletion;
+
+            foreach (var f in furnitureToDelete)
+            {
+                foreach (var p in f.FurnitureImages)
+                {
+                    if (p != null)
+                    {
+                        furnitureImagedeletion = p;
+                        var newReg = new Regex(@"([^/]+$)");
+                        string strMatch = p.PictureInfo;
+                        guid = newReg.Matches(strMatch)[0].Value;
+
+                        _imageInfoRepository.DeleteImage(guid, furnitureImagedeletion);
+                    }
+                }
             }
 
             _furnitureInfoRepository.DeleteFurnitureByFurnitureId(itemToDelete);
