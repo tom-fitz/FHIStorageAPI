@@ -62,7 +62,7 @@ namespace FHIStorage.API.Services
             //var changFurnIds = GetHouse(houseToDelete.HouseId);
             foreach (var x in changFurnIds)
             {
-                x.HouseId = 7;
+                x.HouseId = 1;
                 _ctx.Furniture.Update(x);
             }
 
