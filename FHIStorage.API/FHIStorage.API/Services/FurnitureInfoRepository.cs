@@ -112,7 +112,7 @@ namespace FHIStorage.API.Services
             furnitureToDelete.CategoryId = 0;
 
             _ctx.Furniture.Remove(furnitureToDelete);
-            _ctx.SaveChangesAsync();
+            _ctx.SaveChanges();
         }
     }
 }

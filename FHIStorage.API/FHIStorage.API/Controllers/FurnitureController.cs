@@ -239,9 +239,9 @@ namespace FHIStorage.API.Controllers
         {
             var furnitureToDelete = _furnitureInfoRepository.GetFurnitureByFurnitureId(id).ToList();
 
-            var itemToDelete = furnitureToDelete.First(f => f.FurnitureId == id);
+            //var itemToDelete = furnitureToDelete.First(f => f.FurnitureId == id);
 
-            if (itemToDelete == null)
+            if (furnitureToDelete[0] == null)
             {
                 NotFound();
             }
@@ -251,7 +251,7 @@ namespace FHIStorage.API.Controllers
 
             foreach (var f in furnitureToDelete)
             {
-                if (f.FurnitureImages[0] != null)
+                if (f.FurnitureImages.Count > 0)
                 {
                     foreach (var p in f.FurnitureImages)
                     {
@@ -260,12 +260,16 @@ namespace FHIStorage.API.Controllers
                             string strMatch = p.PictureInfo;
                             guid = newReg.Matches(strMatch)[0].Value;
 
-                            _imageInfoRepository.DeleteImage(guid, furnitureImagedeletion);
+                            
                     }
                 }
             }
-            
-            _furnitureInfoRepository.DeleteFurnitureByFurnitureId(itemToDelete);
+
+            if (furnitureImagedeletion.PictureInfo != null || furnitureImagedeletion.FurnitureImageId > 0)
+            {
+                _imageInfoRepository.DeleteImage(guid, furnitureImagedeletion);
+            }
+            _furnitureInfoRepository.DeleteFurnitureByFurnitureId(furnitureToDelete[0]);
 
             return NoContent();
         }
