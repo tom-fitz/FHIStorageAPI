@@ -7,10 +7,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mime;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FHIStorage.API.Services;
 using Microsoft.IdentityModel.Logging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace FHIStorage.API.Controllers
 {
@@ -65,8 +70,13 @@ namespace FHIStorage.API.Controllers
                 if (image != null && image.Length > 0)
                 {
                     using (Stream stream = image.OpenReadStream())
+                    using (var outputStream = new MemoryStream())
+                    using (var newImage = Image.Load(stream, new JpegDecoder()))
                     {
-                        var imageId = await _imageInfoRepository.SaveImage(stream).ConfigureAwait(false);
+                        newImage.Mutate(x => x.AutoOrient());
+                        newImage.SaveAsJpeg(outputStream);
+                        outputStream.Position = 0;
+                        var imageId = await _imageInfoRepository.SaveImage(outputStream).ConfigureAwait(false);
                         furnitureImage = new FurnitureImage()
                         {
                             PictureInfo = "https://fhistorage.blob.core.windows.net/furnitureimages/" + imageId,

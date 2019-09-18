@@ -237,7 +237,7 @@ namespace FHIStorage.API.Controllers
         [HttpDelete("furniture/{id}")]
         public IActionResult DeleteFurnitureByFurnitureId(int id)
         {
-            var furnitureToDelete = _furnitureInfoRepository.GetFurnitureByFurnitureId(id);
+            var furnitureToDelete = _furnitureInfoRepository.GetFurnitureByFurnitureId(id).ToList();
 
             var itemToDelete = furnitureToDelete.First(f => f.FurnitureId == id);
 
@@ -247,24 +247,24 @@ namespace FHIStorage.API.Controllers
             }
 
             string guid = "";
-            FurnitureImage furnitureImagedeletion;
+            var furnitureImagedeletion = new FurnitureImage{};
 
             foreach (var f in furnitureToDelete)
             {
-                foreach (var p in f.FurnitureImages)
+                if (f.FurnitureImages[0] != null)
                 {
-                    if (p != null)
+                    foreach (var p in f.FurnitureImages)
                     {
-                        furnitureImagedeletion = p;
-                        var newReg = new Regex(@"([^/]+$)");
-                        string strMatch = p.PictureInfo;
-                        guid = newReg.Matches(strMatch)[0].Value;
+                            furnitureImagedeletion = p;
+                            var newReg = new Regex(@"([^/]+$)");
+                            string strMatch = p.PictureInfo;
+                            guid = newReg.Matches(strMatch)[0].Value;
 
-                        _imageInfoRepository.DeleteImage(guid, furnitureImagedeletion);
+                            _imageInfoRepository.DeleteImage(guid, furnitureImagedeletion);
                     }
                 }
             }
-
+            
             _furnitureInfoRepository.DeleteFurnitureByFurnitureId(itemToDelete);
 
             return NoContent();

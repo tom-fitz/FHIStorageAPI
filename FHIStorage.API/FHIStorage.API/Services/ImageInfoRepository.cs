@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.WindowsAzure.Storage;
 using Remotion.Linq.Clauses;
 using Microsoft.Extensions.Configuration;
+using SixLabors.ImageSharp;
 
 namespace FHIStorage.API.Services
 {
@@ -39,7 +40,6 @@ namespace FHIStorage.API.Services
             _ctx.FurnitureImages.Add(newImage);
             _ctx.SaveChanges();
         }
-
         public async Task<string> SaveImage(Stream imageStream)
         {
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
