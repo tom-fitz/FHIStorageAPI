@@ -15,5 +15,6 @@ namespace FHIStorage.API.Entities
         [Required]
         [MaxLength(50)]
         public string Type { get; set; }
+        public int CategoryGroupId { get; set; }
     }
 }

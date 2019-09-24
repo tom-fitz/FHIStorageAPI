@@ -182,7 +182,8 @@ namespace FHIStorage.API.Controllers
                 results.Add(new CategoryModel
                 {
                     Id = c.CategoryId,
-                    Type = c.Type
+                    Type = c.Type,
+                    CategoryGroupId = c.CategoryGroupId
                 });
             }
 

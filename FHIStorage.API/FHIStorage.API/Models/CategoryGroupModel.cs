@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace FHIStorage.API.Models
 {
-    public class CategoryModel
+    public class CategoryGroupModel
     {
         [Key]
-        public int Id { get; set; }
-        [Required]
-        [MaxLength(50)]
-        public string Type { get; set; }
         public int CategoryGroupId { get; set; }
+        public string GroupType { get; set; }
     }
 }

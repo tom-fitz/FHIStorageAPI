@@ -14,6 +14,7 @@ namespace FHIStorage.API.Entities
         }
         public DbSet<House> Houses { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryGroup> CategoryGroups { get; set; }
         public DbSet<Furniture> Furniture { get; set; }
         public DbSet<FurnitureImage> FurnitureImages { get; set; }
     }
