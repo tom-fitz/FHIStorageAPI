@@ -23,6 +23,8 @@ namespace FHIStorage.API.Models
         [ForeignKey("HouseId")]
         [Required] public int HouseId { get; set; }
         [Required] public int Turns { get; set; }
+        public int? Width { get; set; }
+        public int? Height { get; set; }
         public List<FurnitureImage> FurnitureImages { get; set; }
         [ForeignKey("FurnitureImageId")]
         public int? FurnitureImageId { get; set; }

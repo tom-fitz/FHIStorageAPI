@@ -51,6 +51,8 @@ namespace FHIStorage.API.Controllers
                     PurchasedFrom = x.PurchasedFrom,
                     HouseId = x.HouseId,
                     Turns = x.Turns,
+                    Width = x.Width,
+                    Height = x.Height,
                     FurnitureImageId = x.FurnitureImageId,
                     FurnitureImages = x.FurnitureImages.ToList(),
                     House = x.House
@@ -89,6 +91,8 @@ namespace FHIStorage.API.Controllers
                     DatePurchased = Convert.ToDateTime(f.DatePurchased),
                     HouseId = f.HouseId,
                     Turns = f.Turns,
+                    Width = f.Width,
+                    Height = f.Height,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
                     House = f.House
@@ -122,6 +126,8 @@ namespace FHIStorage.API.Controllers
                     DatePurchased = Convert.ToDateTime(f.DatePurchased),
                     HouseId = f.HouseId,
                     Turns = f.Turns,
+                    Width = f.Width,
+                    Height = f.Height,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
                     House = f.House
@@ -156,6 +162,8 @@ namespace FHIStorage.API.Controllers
                     DatePurchased = Convert.ToDateTime(f.DatePurchased),
                     HouseId = f.HouseId,
                     Turns = f.Turns,
+                    Width = f.Width,
+                    Height = f.Height,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
                     House = f.House
@@ -206,7 +214,9 @@ namespace FHIStorage.API.Controllers
                 PurchasedFrom = newFurniture.PurchasedFrom,
                 DatePurchased = newFurniture.DatePurchased,
                 HouseId = newFurniture.HouseId,
-                Turns = newFurniture.Turns
+                Turns = newFurniture.Turns,
+                Width = newFurniture.Width,
+                Height = newFurniture.Height
             };
 
             _furnitureInfoRepository.AddNewFurniture(finalFurniture);
