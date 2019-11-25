@@ -53,6 +53,8 @@ namespace FHIStorage.API.Controllers
                     Turns = x.Turns,
                     Width = x.Width,
                     Height = x.Height,
+                    Quantity = x.Quantity,
+                    IsFurnitureSet = x.IsFurnitureSet,
                     FurnitureImageId = x.FurnitureImageId,
                     FurnitureImages = x.FurnitureImages.ToList(),
                     House = x.House
@@ -93,6 +95,8 @@ namespace FHIStorage.API.Controllers
                     Turns = f.Turns,
                     Width = f.Width,
                     Height = f.Height,
+                    Quantity = f.Quantity,
+                    IsFurnitureSet = f.IsFurnitureSet,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
                     House = f.House
@@ -128,6 +132,8 @@ namespace FHIStorage.API.Controllers
                     Turns = f.Turns,
                     Width = f.Width,
                     Height = f.Height,
+                    Quantity = f.Quantity,
+                    IsFurnitureSet = f.IsFurnitureSet,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
                     House = f.House
@@ -164,6 +170,8 @@ namespace FHIStorage.API.Controllers
                     Turns = f.Turns,
                     Width = f.Width,
                     Height = f.Height,
+                    Quantity = f.Quantity,
+                    IsFurnitureSet = f.IsFurnitureSet,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
                     House = f.House
@@ -216,15 +224,92 @@ namespace FHIStorage.API.Controllers
                 HouseId = newFurniture.HouseId,
                 Turns = newFurniture.Turns,
                 Width = newFurniture.Width,
-                Height = newFurniture.Height
+                Height = newFurniture.Height,
+                Quantity = newFurniture.Quantity,
+                IsFurnitureSet = newFurniture.IsFurnitureSet
             };
 
             _furnitureInfoRepository.AddNewFurniture(finalFurniture);
 
-            //return Ok();
-            return CreatedAtRoute("GetFurnitureByFurnitureId", new { furnitureId = finalFurniture.FurnitureId }, finalFurniture);
+            return Ok(finalFurniture);
         }
 
+        [HttpPut("furnitureSets/{id}/{qty}")]
+        public IActionResult UpdateFurnitureSets([FromBody] FurnitureSet newFurnitureSet)
+        {
+            int quantity = newFurnitureSet.Quantity;
+
+            if (newFurnitureSet == null || quantity == 0)
+            {
+                return BadRequest();
+            }
+
+            if (!_furnitureInfoRepository.FurnitureExists(newFurnitureSet.FurnitureId))
+            {
+                return NotFound($"No furniture set with the id: {newFurnitureSet.FurnitureId} was found");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            _furnitureInfoRepository.AddFurnitureSet(newFurnitureSet);
+
+            return Ok();
+        }
+
+        [HttpPut("furnitureSets/Assignment/{houseid}/{qty}")]
+        public IActionResult CopyFurnitureItemAndInsertNewRow([FromBody] FurnitureSet assignedFurnitureSet)
+        {
+            if (!_furnitureInfoRepository.FurnitureExists(assignedFurnitureSet.FurnitureId))
+            {
+                return NotFound($"No furniture with the id: {assignedFurnitureSet.FurnitureId} was found");
+            }
+
+            var getFurnitureToCopy = _furnitureInfoRepository.GetFurnitureByFurnitureId(assignedFurnitureSet.FurnitureId);
+            //_furnitureInfoRepository.FurnitureExists(assignedFurnitureSet.FurnitureId);
+
+            if (getFurnitureToCopy == null)
+            {
+                return NotFound($"Furniture to copy not found");
+            }
+
+            var furnitureIdToCopy = 0;
+
+            foreach (var x in getFurnitureToCopy)
+            {
+                furnitureIdToCopy = x.FurnitureId;
+            }
+
+            var getFurnitureSet = _furnitureInfoRepository.GetFurnitureSetByFurnitureId(assignedFurnitureSet.FurnitureId);
+
+            if (getFurnitureSet == null)
+            {
+                return NotFound($"Furniture set doesn't exist");
+            }
+
+            var totalQuantity = 0;
+            var furnitureSetId = 0;
+
+            foreach (var x in getFurnitureSet)
+            {
+                totalQuantity = x.Quantity;
+                furnitureSetId = x.FurnitureSetId;
+            }
+
+            if (assignedFurnitureSet.Quantity > totalQuantity)
+            {
+                return BadRequest($"Assigning more items than are avaiable in the warehouse.");
+            }
+            
+
+            int houseId = Convert.ToInt32(RouteData.Values["houseid"]);
+
+
+            _furnitureInfoRepository.AssignFurnitureSet(assignedFurnitureSet.Quantity, furnitureIdToCopy, houseId);
+
+            return Ok();
+        }
         [HttpPut("furniture/{id}")]
         public IActionResult UpdateFurnitureById([FromBody] Furniture newFurniture)
         {

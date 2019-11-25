@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -68,6 +69,31 @@ namespace FHIStorage.API.Services
         public void updateFurnitureByFurnitureId(Furniture newFurniture)
         {
             _ctx.UpdateRange(newFurniture);
+            _ctx.SaveChanges();
+        }
+
+        public IEnumerable<FurnitureSet> GetFurnitureSetByFurnitureId(int furnitureId)
+        {
+            return _ctx.FurnitureSets.Where(f => f.FurnitureId == furnitureId);
+        }
+
+        public void AddFurnitureSet(FurnitureSet newFurnitureSet)
+        {
+            _ctx.FurnitureSets.Add(newFurnitureSet);
+            _ctx.SaveChanges();
+        }
+
+        public void AssignFurnitureSet(int updateQuantity, int furnitureIdToCopy, int houseId)
+        {
+            SqlParameter prm1 = new SqlParameter("@FurnitureIdToCopy", furnitureIdToCopy);
+            SqlParameter prm2 = new SqlParameter("@QuantityOfNewFurniture", updateQuantity);
+            SqlParameter prm3 = new SqlParameter("@HouseIdToAssignTo", houseId);
+
+            _ctx.Database.ExecuteSqlCommand($"EXEC dbo.AssignQuantityToFurnitureSet @FurnitureIdToCopy, @QuantityOfNewFurniture, @HouseIdToAssignTo", prm1, prm2, prm3);
+        }
+        public void UpdateQuantityTable(FurnitureSet updatedFurnitureSet)
+        {
+            _ctx.UpdateRange(updatedFurnitureSet);
             _ctx.SaveChanges();
         }
 

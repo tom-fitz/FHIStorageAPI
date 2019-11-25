@@ -4,14 +4,16 @@ using FHIStorage.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FHIStorage.API.Migrations
 {
     [DbContext(typeof(HouseInfoContext))]
-    partial class HouseInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20190926200402_adding")]
+    partial class adding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +120,9 @@ namespace FHIStorage.API.Migrations
 
                     b.Property<int>("FurnitureId");
 
-                    b.Property<int>("Quantity");
+                    b.Property<int>("HouseId");
+
+                    b.Property<int>("MasterFurnitureId");
 
                     b.HasKey("FurnitureSetId");
 

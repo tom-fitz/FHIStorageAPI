@@ -29,5 +29,7 @@ namespace FHIStorage.API.Entities
         [ForeignKey("FurnitureImageId")]
         public int? FurnitureImageId { get; set; }
         public House House { get; set; }
+        public bool IsFurnitureSet { get; set; }
+        public int Quantity { get; set; }
     }
 }

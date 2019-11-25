@@ -19,8 +19,12 @@ namespace FHIStorage.API.Services
         IEnumerable<Furniture> GetFurnitureByCategoryId(int categoryId);
         //Task<string> SaveImage(Stream imageStream);
         void AddNewFurniture(Furniture finalFurniture);
+        void AddFurnitureSet(FurnitureSet newFurnitureSet);
         void updateFurnitureByFurnitureId(Furniture newFurniture);
         void DeleteFurnitureByFurnitureId(Furniture furnitureToDelete);
         bool FurnitureExists(int furnitureId);
+        void UpdateQuantityTable(FurnitureSet newFurnitureSet);
+        IEnumerable<FurnitureSet> GetFurnitureSetByFurnitureId(int furnitureId);
+        void AssignFurnitureSet(int updateQuantity, int furnitureIdToCopy, int houseId);
     }
 }
