@@ -255,7 +255,7 @@ namespace FHIStorage.API.Controllers
 
             _furnitureInfoRepository.AddFurnitureSet(newFurnitureSet);
 
-            return Ok();
+            return Ok(newFurnitureSet);
         }
 
         [HttpPut("furnitureSets/Assignment/{houseid}/{qty}")]
@@ -307,6 +307,24 @@ namespace FHIStorage.API.Controllers
 
 
             _furnitureInfoRepository.AssignFurnitureSet(assignedFurnitureSet.Quantity, furnitureIdToCopy, houseId);
+
+            return Ok(assignedFurnitureSet);
+        }
+
+        [HttpPut("furnitureSet/Warehouse")]
+        public IActionResult AssignFurnitureBackToWarehouse([FromBody] Furniture updateFurnitureSet)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (!_furnitureInfoRepository.FurnitureExists(updateFurnitureSet.FurnitureId))
+            {
+                return NotFound($"No furniture with the id: {updateFurnitureSet.FurnitureId} was found");
+            }
+
+            _furnitureInfoRepository.AssignFurnitureSetBackToWarehouse(updateFurnitureSet);
 
             return Ok();
         }

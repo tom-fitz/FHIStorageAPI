@@ -32,16 +32,25 @@ namespace FHIStorage.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCors(options =>
+            //{
+            //    // specify cross origin hosts
+            //    options.AddPolicy(MyAllowSpecificOrigins,
+            //        builder =>
+            //        {
+            //            builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net")
+            //                .AllowAnyHeader()
+            //                .AllowAnyMethod();
+            //        });
+            //});
+
             services.AddCors(options =>
             {
-                // specify cross origin hosts
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             });
 
             services.AddMvc()

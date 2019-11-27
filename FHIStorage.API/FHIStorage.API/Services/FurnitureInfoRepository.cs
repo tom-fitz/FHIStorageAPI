@@ -91,6 +91,17 @@ namespace FHIStorage.API.Services
 
             _ctx.Database.ExecuteSqlCommand($"EXEC dbo.AssignQuantityToFurnitureSet @FurnitureIdToCopy, @QuantityOfNewFurniture, @HouseIdToAssignTo", prm1, prm2, prm3);
         }
+
+        public void AssignFurnitureSetBackToWarehouse(Furniture updateFurnitureSet)
+        {
+            SqlParameter prm1 = new SqlParameter("@FurnitureId", updateFurnitureSet.FurnitureId);
+            SqlParameter prm2 = new SqlParameter("@UID", updateFurnitureSet.UID);
+            SqlParameter prm3 = new SqlParameter("@QuantityToAssignBack", updateFurnitureSet.Quantity);
+
+            _ctx.Database.ExecuteSqlCommand(
+                $"EXEC dbo.AssignFurnitureSetBackToWareHouse @FurnitureId, @UID, @QuantityToAssignBack", prm1, prm2,
+                prm3);
+        }
         public void UpdateQuantityTable(FurnitureSet updatedFurnitureSet)
         {
             _ctx.UpdateRange(updatedFurnitureSet);
