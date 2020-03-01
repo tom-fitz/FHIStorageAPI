@@ -58,8 +58,8 @@ namespace FHIStorage.API
                 .AddMvcOptions(o => o.OutputFormatters.Add(
                     new XmlDataContractSerializerOutputFormatter()));
 
-            //string dbconn = _config["DBConnectionString"];
-            string dbconn = "Server=tcp:fhi01dbprod.database.windows.net,1433;Initial Catalog=FHIStorageDB;Persist Security Info=False;User ID=thomas.fitzgerald;Password=Fitz001/;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            string dbconn = _config["DBConnectionString"];
+
 
             services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
