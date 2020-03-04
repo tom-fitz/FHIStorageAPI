@@ -54,6 +54,7 @@ namespace FHIStorage.API.Controllers
                     Width = x.Width,
                     Height = x.Height,
                     Quantity = x.Quantity,
+                    Notes = x.Notes,
                     IsFurnitureSet = x.IsFurnitureSet,
                     FurnitureImageId = x.FurnitureImageId,
                     FurnitureImages = x.FurnitureImages.ToList(),
@@ -96,6 +97,7 @@ namespace FHIStorage.API.Controllers
                     Width = f.Width,
                     Height = f.Height,
                     Quantity = f.Quantity,
+                    Notes = f.Notes,
                     IsFurnitureSet = f.IsFurnitureSet,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
@@ -133,6 +135,7 @@ namespace FHIStorage.API.Controllers
                     Width = f.Width,
                     Height = f.Height,
                     Quantity = f.Quantity,
+                    Notes = f.Notes,
                     IsFurnitureSet = f.IsFurnitureSet,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
@@ -171,6 +174,7 @@ namespace FHIStorage.API.Controllers
                     Width = f.Width,
                     Height = f.Height,
                     Quantity = f.Quantity,
+                    Notes = f.Notes,
                     IsFurnitureSet = f.IsFurnitureSet,
                     FurnitureImageId = f.FurnitureImageId,
                     FurnitureImages = f.FurnitureImages.ToList(),
@@ -226,6 +230,7 @@ namespace FHIStorage.API.Controllers
                 Width = newFurniture.Width,
                 Height = newFurniture.Height,
                 Quantity = newFurniture.Quantity,
+                Notes = newFurniture.Notes,
                 IsFurnitureSet = newFurniture.IsFurnitureSet
             };
 

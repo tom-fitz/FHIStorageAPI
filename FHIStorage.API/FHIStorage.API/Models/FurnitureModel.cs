@@ -31,5 +31,6 @@ namespace FHIStorage.API.Models
         public House House { get; set; }
         public bool IsFurnitureSet { get; set; }
         public int Quantity { get; set; }
+        public string Notes { get; set; }
     }
 }

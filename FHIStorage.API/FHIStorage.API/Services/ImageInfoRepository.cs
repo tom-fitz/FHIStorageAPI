@@ -22,8 +22,13 @@ namespace FHIStorage.API.Services
             _ctx = ctx;
         }
 
-        static string storageConn = Environment.GetEnvironmentVariable("StorageAccountConnectionString");
-        static string storageCred = Environment.GetEnvironmentVariable("StorageCredentials");
+        //static string storageConn = Environment.GetEnvironmentVariable("StorageAccountConnectionString");
+        //static string storageCred = Environment.GetEnvironmentVariable("StorageCredentials");
+
+        static string storageConn = "DefaultEndpointsProtocol=https;AccountName=fhistorage;AccountKey=iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==;EndpointSuffix=core.windows.net";
+
+
+        static string storageCred = "iYZjHO8U3IDj0eRc+KKmuncGA5G+C4KASPheQZMvOvsZ5y3lf3OFqit89P7bZU2bVD6R9/5qIUPGivFHoR83iA==";
 
         CloudBlobClient blobClient;
         string baseUri = "https://fhistorage.blob.core.windows.net/";
