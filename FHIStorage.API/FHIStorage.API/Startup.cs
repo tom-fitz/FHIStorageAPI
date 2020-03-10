@@ -28,50 +28,39 @@ namespace FHIStorage.API
             _config = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
-
-        //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    // specify cross origin hosts
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //        builder =>
-            //        {
-            //            builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net")
-            //                .AllowAnyHeader()
-            //                .AllowAnyMethod();
-            //        });
-            //});
-
-            //services.AddMvc()
-            //    .AddControllersAsServices()
-            //    .AddMvcOptions(o => o.OutputFormatters.Add(
-            //        new XmlDataContractSerializerOutputFormatter()));
-
-            services.AddOptions();
-
-            services.AddMvc();
-
-            services.Configure<IConfigurationRoot>(Configuration);
-
-            //string dbconn = _config["DBConnectionString"];
-
-            string dbconn = "Server=tcp:fhi01dbprod.database.windows.net,1433;Initial Catalog=FHIStorageDB;Persist Security Info=False;User ID=thomas.fitzgerald;Password=Fitz001/;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
-
-            services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
-
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
+                // specify cross origin hosts
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net", "https://fhi-storage.azurewebsites.net/")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
             });
+
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder.AllowAnyOrigin()
+            //            .AllowAnyMethod()
+            //            .AllowAnyHeader()
+            //            .AllowCredentials());
+            //});
+
+            services.AddMvc()
+                .AddControllersAsServices()
+                .AddMvcOptions(o => o.OutputFormatters.Add(
+                    new XmlDataContractSerializerOutputFormatter()));
+
+            string dbconn = _config["DBConnectionString"];
+
+            services.AddDbContext<HouseInfoContext>(x => x.UseSqlServer(dbconn));
 
             services.AddScoped<IHouseInfoRepository, HouseInfoRepository>();
             services.AddScoped<IFurnitureInfoRepository, FurnitureInfoRepository>();
@@ -94,8 +83,7 @@ namespace FHIStorage.API
             //houseInfoContext.EnsureSeedDataForContext();
 
             // Allowing for cross-origin browsers to access the API endpoints.
-            //app.UseCors(MyAllowSpecificOrigins);
-            app.UseCors("CorsPolicy");
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseStatusCodePages();
 
