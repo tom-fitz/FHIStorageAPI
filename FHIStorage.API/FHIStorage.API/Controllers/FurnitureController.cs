@@ -26,6 +26,11 @@ namespace FHIStorage.API.Controllers
             _imageInfoRepository = imageInfoRepository;
         }
 
+        public bool IsNotEmpty(IEnumerable<FurnitureSet> Dataset)
+        {
+            return Dataset != null && Dataset.Any(c => c != null);
+        }
+
         [HttpGet("furniture/{furnitureId}", Name = "GetFurnitureByFurnitureId")]
         public IActionResult GetFurnitureByFurnitureId(int furnitureId)
         {
@@ -286,20 +291,28 @@ namespace FHIStorage.API.Controllers
                 furnitureIdToCopy = x.FurnitureId;
             }
 
-            var getFurnitureSet = _furnitureInfoRepository.GetFurnitureSetByFurnitureId(assignedFurnitureSet.FurnitureId);
-
-            if (getFurnitureSet == null)
-            {
-                return NotFound($"Furniture set doesn't exist");
-            }
-
             var totalQuantity = 0;
             var furnitureSetId = 0;
 
-            foreach (var x in getFurnitureSet)
+            var getFurnitureSet = _furnitureInfoRepository.GetFurnitureSetByFurnitureId(assignedFurnitureSet.FurnitureId);
+
+            if (!IsNotEmpty(getFurnitureSet))
             {
-                totalQuantity = x.Quantity;
-                furnitureSetId = x.FurnitureSetId;
+                foreach (var x in getFurnitureToCopy)
+                {
+                    totalQuantity = x.Quantity;
+                }
+            }
+            else
+            {
+                //totalQuantity = Convert.ToInt32(getFurnitureSet.Select(q => q.Quantity));
+                //furnitureSetId = Convert.ToInt32(getFurnitureSet.Select(id => id.FurnitureSetId));
+                foreach (var x in getFurnitureSet)
+                {
+                    totalQuantity = x.Quantity;
+                    furnitureSetId = x.FurnitureSetId;
+                }
+
             }
 
             if (assignedFurnitureSet.Quantity > totalQuantity)
