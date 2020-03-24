@@ -38,7 +38,7 @@ namespace FHIStorage.API
                 options.AddPolicy(MyAllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net", "https://fhi-storage.azurewebsites.net/")
+                        builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net", "https://fhi-storage.azurewebsites.net")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
