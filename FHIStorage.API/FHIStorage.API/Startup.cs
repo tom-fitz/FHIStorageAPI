@@ -32,26 +32,26 @@ namespace FHIStorage.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                // specify cross origin hosts
-                options.AddPolicy(MyAllowSpecificOrigins,
-                    builder =>
-                    {
-                        builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net", "https://fhi-storage.azurewebsites.net")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-            });
-
             //services.AddCors(options =>
             //{
-            //    options.AddPolicy("CorsPolicy",
-            //        builder => builder.AllowAnyOrigin()
-            //            .AllowAnyMethod()
-            //            .AllowAnyHeader()
-            //            .AllowCredentials());
+            //    // specify cross origin hosts
+            //    options.AddPolicy(MyAllowSpecificOrigins,
+            //        builder =>
+            //        {
+            //            builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net", "https://fhi-storage.azurewebsites.net")
+            //                .AllowAnyHeader()
+            //                .AllowAnyMethod();
+            //        });
             //});
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
 
             services.AddMvc()
                 .AddControllersAsServices()
@@ -83,7 +83,7 @@ namespace FHIStorage.API
             //houseInfoContext.EnsureSeedDataForContext();
 
             // Allowing for cross-origin browsers to access the API endpoints.
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors("CorsPolicy");
 
             app.UseStatusCodePages();
 
