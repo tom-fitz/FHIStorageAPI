@@ -72,9 +72,9 @@ namespace FHIStorage.API.Services
             _ctx.SaveChanges();
         }
 
-        public IEnumerable<FurnitureSet> GetFurnitureSetByFurnitureId(int furnitureId)
+        public FurnitureSet GetFurnitureSetByFurnitureId(int furnitureId)
         {
-            return _ctx.FurnitureSets.Where(f => f.FurnitureId == furnitureId);
+            return _ctx.FurnitureSets.First(f => f.FurnitureId == furnitureId);
         }
 
         public void AddFurnitureSet(FurnitureSet newFurnitureSet)
@@ -105,6 +105,12 @@ namespace FHIStorage.API.Services
         public void UpdateQuantityTable(FurnitureSet updatedFurnitureSet)
         {
             _ctx.UpdateRange(updatedFurnitureSet);
+            _ctx.SaveChanges();
+        }
+
+        public void DeleteFurnitureSet(FurnitureSet furnitureSetToDelete)
+        {
+            _ctx.FurnitureSets.Remove(furnitureSetToDelete);
             _ctx.SaveChanges();
         }
 

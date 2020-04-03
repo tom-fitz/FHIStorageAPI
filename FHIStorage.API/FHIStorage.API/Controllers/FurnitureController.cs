@@ -294,9 +294,9 @@ namespace FHIStorage.API.Controllers
             var totalQuantity = 0;
             var furnitureSetId = 0;
 
-            var getFurnitureSet = _furnitureInfoRepository.GetFurnitureSetByFurnitureId(assignedFurnitureSet.FurnitureId);
+            FurnitureSet getFurnitureSet = _furnitureInfoRepository.GetFurnitureSetByFurnitureId(assignedFurnitureSet.FurnitureId);
 
-            if (!IsNotEmpty(getFurnitureSet))
+            if(getFurnitureSet == null)
             {
                 foreach (var x in getFurnitureToCopy)
                 {
@@ -305,14 +305,8 @@ namespace FHIStorage.API.Controllers
             }
             else
             {
-                //totalQuantity = Convert.ToInt32(getFurnitureSet.Select(q => q.Quantity));
-                //furnitureSetId = Convert.ToInt32(getFurnitureSet.Select(id => id.FurnitureSetId));
-                foreach (var x in getFurnitureSet)
-                {
-                    totalQuantity = x.Quantity;
-                    furnitureSetId = x.FurnitureSetId;
-                }
-
+                totalQuantity = getFurnitureSet.Quantity;
+                furnitureSetId = getFurnitureSet.FurnitureSetId;
             }
 
             if (assignedFurnitureSet.Quantity > totalQuantity)
@@ -371,8 +365,6 @@ namespace FHIStorage.API.Controllers
         {
             var furnitureToDelete = _furnitureInfoRepository.GetFurnitureByFurnitureId(id).ToList();
 
-            //var itemToDelete = furnitureToDelete.First(f => f.FurnitureId == id);
-
             if (furnitureToDelete[0] == null)
             {
                 NotFound();
@@ -383,6 +375,11 @@ namespace FHIStorage.API.Controllers
 
             foreach (var f in furnitureToDelete)
             {
+                if (f.Quantity > 1)
+                {
+                    FurnitureSet furnitureSetToDelete = _furnitureInfoRepository.GetFurnitureSetByFurnitureId(f.FurnitureId);
+                    _furnitureInfoRepository.DeleteFurnitureSet(furnitureSetToDelete);
+                }
                 if (f.FurnitureImages.Count > 0)
                 {
                     foreach (var p in f.FurnitureImages)
@@ -391,8 +388,6 @@ namespace FHIStorage.API.Controllers
                             var newReg = new Regex(@"([^/]+$)");
                             string strMatch = p.PictureInfo;
                             guid = newReg.Matches(strMatch)[0].Value;
-
-                            
                     }
                 }
             }

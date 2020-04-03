@@ -24,8 +24,9 @@ namespace FHIStorage.API.Services
         void DeleteFurnitureByFurnitureId(Furniture furnitureToDelete);
         bool FurnitureExists(int furnitureId);
         void UpdateQuantityTable(FurnitureSet newFurnitureSet);
-        IEnumerable<FurnitureSet> GetFurnitureSetByFurnitureId(int furnitureId);
+        FurnitureSet GetFurnitureSetByFurnitureId(int furnitureId);
         void AssignFurnitureSet(int updateQuantity, int furnitureIdToCopy, int houseId);
         void AssignFurnitureSetBackToWarehouse(Furniture updateFurnitureSet);
+        void DeleteFurnitureSet(FurnitureSet furnitureSetToDelete);
     }
 }
