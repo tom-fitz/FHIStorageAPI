@@ -56,12 +56,13 @@ namespace FHIStorage.API.Controllers
             {
                 id = houseToReturn.HouseId,
                 address = houseToReturn.Address,
-                contractPrice = houseToReturn.ContractedPrice,
+                contractedPrice = houseToReturn.ContractedPrice,
                 contractDate = houseToReturn.ContractDate,
                 dateSold = houseToReturn.DateSold,
                 sold = houseToReturn.Sold,
                 pointOfContact = houseToReturn.PointOfContact,
-                notes = houseToReturn.Notes
+                notes = houseToReturn.Notes,
+                town = houseToReturn.Town
             });
 
             return Ok(results);

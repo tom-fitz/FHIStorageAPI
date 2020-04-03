@@ -14,7 +14,7 @@ namespace FHIStorage.API.Models
         public string address { get; set; }
         public string town { get; set; }
         [Required]
-        public Decimal contractPrice { get; set; }
+        public Decimal contractedPrice { get; set; }
         [Required]
         public DateTime contractDate { get; set; }
         public DateTime? dateSold { get; set; }
