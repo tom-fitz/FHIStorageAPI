@@ -34,7 +34,7 @@ namespace FHIStorage.API.Controllers
                 {
                     id = h.HouseId,
                     address = h.Address,
-                    contractPrice = h.ContractedPrice,
+                    contractedPrice = h.ContractedPrice,
                     contractDate = h.ContractDate,
                     dateSold = h.DateSold,
                     sold = h.Sold,
