@@ -12,12 +12,14 @@ namespace FHIStorage.API.Models
         public int id { get; set; }
         [Required]
         public string address { get; set; }
-        public int zipcode { get; set; }
+        public string town { get; set; }
         [Required]
-        public Decimal cost { get; set; }
+        public Decimal contractPrice { get; set; }
         [Required]
         public DateTime contractDate { get; set; }
         public DateTime? dateSold { get; set; }
         public bool sold { get; set; }
+        public string pointOfContact { get; set; }
+        public string notes { get; set; }
     }
 }

@@ -34,11 +34,12 @@ namespace FHIStorage.API.Controllers
                 {
                     id = h.HouseId,
                     address = h.Address,
-                    zipcode = h.Zipcode,
-                    cost = h.Cost,
+                    contractPrice = h.ContractedPrice,
                     contractDate = h.ContractDate,
                     dateSold = h.DateSold,
-                    sold = h.Sold
+                    sold = h.Sold,
+                    pointOfContact = h.PointOfContact,
+                    notes = h.Notes
                 });
             }
 
@@ -55,11 +56,12 @@ namespace FHIStorage.API.Controllers
             {
                 id = houseToReturn.HouseId,
                 address = houseToReturn.Address,
-                zipcode = houseToReturn.Zipcode,
-                cost = houseToReturn.Cost,
+                contractPrice = houseToReturn.ContractedPrice,
                 contractDate = houseToReturn.ContractDate,
                 dateSold = houseToReturn.DateSold,
-                sold = houseToReturn.Sold
+                sold = houseToReturn.Sold,
+                pointOfContact = houseToReturn.PointOfContact,
+                notes = houseToReturn.Notes
             });
 
             return Ok(results);
@@ -75,11 +77,12 @@ namespace FHIStorage.API.Controllers
             var finalHouse = new House()
             {
                 Address = newHouse.Address,
-                Zipcode = newHouse.Zipcode,
-                Cost = Convert.ToDecimal(newHouse.Cost),
+                ContractedPrice = Convert.ToDecimal(newHouse.ContractedPrice),
                 ContractDate = Convert.ToDateTime(newHouse.ContractDate),
                 DateSold = Convert.ToDateTime(newHouse.DateSold),
-                Sold = newHouse.Sold
+                Sold = newHouse.Sold,
+                PointOfContact = newHouse.PointOfContact,
+                Notes = newHouse.Notes
             };
 
             _houseInfoRepository.AddNewHouse(finalHouse);

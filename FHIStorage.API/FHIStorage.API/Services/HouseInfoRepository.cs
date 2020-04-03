@@ -44,11 +44,12 @@ namespace FHIStorage.API.Services
             {
                 entity.HouseId = houseToUpdate.HouseId;
                 entity.Address = Convert.ToString(houseToUpdate.Address);
-                entity.Zipcode = Convert.ToInt32(houseToUpdate.Zipcode);
-                entity.Cost = Convert.ToDecimal(houseToUpdate.Cost);
+                entity.ContractedPrice = Convert.ToDecimal(houseToUpdate.ContractedPrice);
                 entity.ContractDate = Convert.ToDateTime(houseToUpdate.ContractDate);
                 entity.DateSold = Convert.ToDateTime(houseToUpdate.DateSold);
                 entity.Sold = Convert.ToBoolean(houseToUpdate.Sold);
+                entity.PointOfContact = Convert.ToString(houseToUpdate.PointOfContact);
+                entity.Notes = Convert.ToString(houseToUpdate.Notes);
 
                 _ctx.Houses.Update(entity);
 
@@ -59,7 +60,7 @@ namespace FHIStorage.API.Services
         public void DeleteHouseById(House houseToDelete)
         {
             var changFurnIds = _ctx.Furniture.Where(f => (f.HouseId == houseToDelete.HouseId));
-            //var changFurnIds = GetHouse(houseToDelete.HouseId);
+
             foreach (var x in changFurnIds)
             {
                 x.HouseId = 1;

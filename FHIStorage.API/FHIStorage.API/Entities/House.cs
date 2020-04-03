@@ -16,11 +16,13 @@ namespace FHIStorage.API.Entities
         [Required]
         [MaxLength(50)]
         public string Address { get; set; }
-        public int Zipcode { get; set; }
+        public string Town { get; set; }
         [Required]
-        public Decimal Cost { get; set; }
+        public Decimal ContractedPrice { get; set; }
         public DateTime ContractDate { get; set; }
         public DateTime? DateSold { get; set; }
         public bool Sold { get; set; }
+        public string PointOfContact { get; set; }
+        public string Notes { get; set; }
     }
 }
