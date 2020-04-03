@@ -83,7 +83,8 @@ namespace FHIStorage.API.Controllers
                 DateSold = Convert.ToDateTime(newHouse.DateSold),
                 Sold = newHouse.Sold,
                 PointOfContact = newHouse.PointOfContact,
-                Notes = newHouse.Notes
+                Notes = newHouse.Notes,
+                Town = newHouse.Town
             };
 
             _houseInfoRepository.AddNewHouse(finalHouse);

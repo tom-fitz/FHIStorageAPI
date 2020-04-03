@@ -50,6 +50,7 @@ namespace FHIStorage.API.Services
                 entity.Sold = Convert.ToBoolean(houseToUpdate.Sold);
                 entity.PointOfContact = Convert.ToString(houseToUpdate.PointOfContact);
                 entity.Notes = Convert.ToString(houseToUpdate.Notes);
+                entity.Town = Convert.ToString(houseToUpdate.Town);
 
                 _ctx.Houses.Update(entity);
 
