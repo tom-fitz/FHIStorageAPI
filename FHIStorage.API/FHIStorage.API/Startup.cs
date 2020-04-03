@@ -32,17 +32,6 @@ namespace FHIStorage.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    // specify cross origin hosts
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //        builder =>
-            //        {
-            //            builder.WithOrigins("http://localhost:8080", "https://fhistorage.z19.web.core.windows.net", "https://fhi-storage.azurewebsites.net")
-            //                .AllowAnyHeader()
-            //                .AllowAnyMethod();
-            //        });
-            //});
 
             services.AddCors(options =>
             {
@@ -80,19 +69,11 @@ namespace FHIStorage.API
                 .AddJsonFile("AppSettings.json")
                 .Build();
 
-            //houseInfoContext.EnsureSeedDataForContext();
-
-            // Allowing for cross-origin browsers to access the API endpoints.
             app.UseCors("CorsPolicy");
 
             app.UseStatusCodePages();
 
             app.UseMvc();
-
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
     }
 }
