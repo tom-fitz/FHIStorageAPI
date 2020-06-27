@@ -18,5 +18,6 @@ namespace FHIStorage.API.Services
         string GetImageByImageId(int imageId);
         FurnitureImage GetImageByFurnitureId(int furnitureId);
         void DeleteImage(string guid, FurnitureImage furnImageToDelete);
+        void AddBulkFurnitureImages(List<FurnitureImage> bulkImages);
     }
 }

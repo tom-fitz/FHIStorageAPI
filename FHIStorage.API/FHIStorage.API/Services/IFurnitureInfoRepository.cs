@@ -28,5 +28,6 @@ namespace FHIStorage.API.Services
         void AssignFurnitureSet(int updateQuantity, int furnitureIdToCopy, int houseId);
         void AssignFurnitureSetBackToWarehouse(Furniture updateFurnitureSet);
         void DeleteFurnitureSet(FurnitureSet furnitureSetToDelete);
+        void bulkFurnitureUpload(List<Furniture> bulkFurnitureObject);
     }
 }

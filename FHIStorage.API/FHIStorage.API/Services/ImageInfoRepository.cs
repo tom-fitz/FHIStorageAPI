@@ -40,6 +40,14 @@ namespace FHIStorage.API.Services
             _ctx.FurnitureImages.Add(newImage);
             _ctx.SaveChanges();
         }
+        public void AddBulkFurnitureImages(List<FurnitureImage> bulkImages)
+        {
+            foreach(FurnitureImage newImage in bulkImages)
+            {
+                _ctx.FurnitureImages.Add(newImage);
+            }
+            _ctx.SaveChanges();
+        }
         public async Task<string> SaveImage(Stream imageStream)
         {
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();

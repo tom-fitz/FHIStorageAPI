@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using FHIStorage.API.Entities;
 using FHIStorage.API.Models;
@@ -59,6 +60,15 @@ namespace FHIStorage.API.Services
         public void AddNewFurniture(Furniture newFurniture)
         {
             _ctx.Furniture.Add(newFurniture);
+            _ctx.SaveChanges();
+        }
+
+        public void bulkFurnitureUpload(List<Furniture> bulkFurnitureObject)
+        {
+            foreach(Furniture x in bulkFurnitureObject)
+            {
+                _ctx.Furniture.Add(x);
+            }
             _ctx.SaveChanges();
         }
 

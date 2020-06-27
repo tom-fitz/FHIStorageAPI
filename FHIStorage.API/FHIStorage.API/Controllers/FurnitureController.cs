@@ -9,7 +9,7 @@ using FHIStorage.API.Models;
 using FHIStorage.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 
 namespace FHIStorage.API.Controllers
 {
@@ -244,6 +244,40 @@ namespace FHIStorage.API.Controllers
             return Ok(finalFurniture);
         }
 
+        [HttpPost("furniture/bulk/{count}/{houseId}")]
+        public IActionResult BulkFurnitureInsert()
+        {
+            int count = Convert.ToInt32(RouteData.Values["count"]);
+            int houseId = Convert.ToInt32(RouteData.Values["houseId"]);
+
+            List<Furniture> furnDataList = new List<Furniture>();
+
+            for (var x = 0; x < count; x++)
+            {
+                var furnData = new Furniture()
+                {
+                    Name = "***Bulk-Upload***",
+                    UID = uidGenerator(),
+                    CategoryId = 1,
+                    Cost = 0,
+                    PurchasedFrom = "***Bulk-Upload***",
+                    DatePurchased = Convert.ToDateTime("2000-01-01"),
+                    HouseId = houseId,
+                    Turns = 1,
+                    Width = null,
+                    Height = null,
+                    Quantity = 1,
+                    Notes = "***Bulk-Upload***",
+                    IsFurnitureSet = false
+                };
+                furnDataList.Add(furnData);
+            }
+
+            _furnitureInfoRepository.bulkFurnitureUpload(furnDataList);
+
+            return Ok(furnDataList);
+        }
+
         [HttpPut("furnitureSets/{id}/{qty}")]
         public IActionResult UpdateFurnitureSets([FromBody] FurnitureSet newFurnitureSet)
         {
@@ -356,6 +390,12 @@ namespace FHIStorage.API.Controllers
                 return NotFound($"No furniture with the id: {newFurniture.FurnitureId} was found");
             }
 
+            // if IsFurnitureSet is true then add that row in the DB
+            if(newFurniture.IsFurnitureSet == true)
+            {
+
+            }
+
             _furnitureInfoRepository.updateFurnitureByFurnitureId(newFurniture);
 
             return Ok(newFurniture);
@@ -399,6 +439,22 @@ namespace FHIStorage.API.Controllers
             _furnitureInfoRepository.DeleteFurnitureByFurnitureId(furnitureToDelete[0]);
 
             return NoContent();
+        }
+        public string uidGenerator()
+        {
+            var finalString = "";
+            var chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[4];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            finalString = new String(stringChars);
+
+            return finalString.ToUpper();
         }
     }
 }
