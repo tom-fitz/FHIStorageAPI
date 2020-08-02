@@ -1,6 +1,6 @@
 # FHIStorageAPI
 
-To run this locally you'll need to sets of connection strings
+To run this locally you'll need two sets of connection strings
 
 startup.cs
 string dbconn = database connection string
