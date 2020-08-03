@@ -116,7 +116,7 @@ namespace FHIStorage.API.Controllers
 
             return Ok(FurnitureImageList);
         }
-        [HttpPost("furniture/image")]
+        [HttpPost("furniture/image/{furnitureId}")]
         public async Task<IActionResult> UploadFile(IFormFile image, int furnId)
         {
             int actFurnId;
